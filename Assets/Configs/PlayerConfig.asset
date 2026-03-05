@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f48f9b9a060a2442bf27b974d6d2626, type: 3}
   m_Name: PlayerConfig
   m_EditorClassIdentifier: Assembly-CSharp::PlayerConfig
-  MoveSpeed: 5
+  MoveSpeed: 10
+  RotationSpeed: 100
   SecondsPerAttack: 0.5
   Damage: 1
   AttackRadius: 2
