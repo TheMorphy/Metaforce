@@ -3,15 +3,17 @@ using Zenject;
 
 public class SceneMonoInstaller : MonoInstaller
 {
-    [Header("Configs")]
+    [Header("Default Configs")]
     [SerializeField] private PlayerConfig playerConfig;
-    [SerializeField] private EnemyConfig enemyConfig;
+    [SerializeField] private EnemyTypeConfig enemyTypeConfig;
+    [SerializeField] private EnemySpawnConfig enemySpawnConfig;
 
     public override void InstallBindings()
     {
         Container.Bind<GameEvents>().AsSingle();
 
         Container.BindInstance(playerConfig).AsSingle();
-        Container.BindInstance(enemyConfig).AsSingle();
+        Container.BindInstance(enemyTypeConfig).AsSingle();
+        Container.BindInstance(enemySpawnConfig).AsSingle();
     }
 }
