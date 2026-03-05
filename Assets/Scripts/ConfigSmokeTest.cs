@@ -3,12 +3,12 @@ using Zenject;
 
 public sealed class ConfigSmokeTest : MonoBehaviour
 {
-    [Inject] private PlayerConfig _player;
-    [Inject] private EnemyConfig _enemy;
+    [Inject] private PlayerConfig player;
+    [Inject] private EnemyConfig enemy;
 
     private void Start()
     {
-        Debug.Log($"Player: speed={_player.MoveSpeed}, dmg={_player.Damage}");
-        Debug.Log($"Enemy: hp={_enemy.HP}, respawn={_enemy.RespawnTimeSeconds}, max={_enemy.MaxEnemiesOnLevel}");
+        Debug.Log($"Player: speed={player.MoveSpeed}, dmg={player.Damage}");
+        Debug.Log($"Enemy: hp={enemy.Hp}, respawn={enemy.RespawnTimeSeconds}, max={enemy.MaxEnemiesOnLevel}");
     }
 }

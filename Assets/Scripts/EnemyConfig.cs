@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Configs/Enemy Config", fileName = "EnemyConfig")]
 public sealed class EnemyConfig : ScriptableObject
 {
-    [Min(1)] public int HP = 3;
+    [Min(1)] public int Hp = 3;
 
     [Min(0f)] public float RespawnTimeSeconds = 2.0f;
 
