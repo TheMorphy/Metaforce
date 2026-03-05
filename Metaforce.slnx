@@ -1,0 +1,6 @@
+﻿<Solution>
+  <Project Path="Zenject.csproj" />
+  <Project Path="Zenject-Editor.csproj" />
+  <Project Path="DOTween.Modules.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+</Solution>
