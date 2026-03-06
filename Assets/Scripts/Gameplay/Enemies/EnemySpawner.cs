@@ -18,13 +18,20 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private bool randomizeStartIndex = true;
 
     private DiContainer container;
+    
+    private DisposableBag disposables;
 
     [Inject]
     public void Construct(DiContainer diContainer)
     {
         container = diContainer;
     }
-
+    
+    private void OnDestroy()
+    {
+        disposables.Dispose();
+    }
+    
     private void Start()
     {
         if (Validate()) return;
@@ -34,7 +41,7 @@ public class EnemySpawner : MonoBehaviour
         for (int i = 0; i < count; i++)
             SpawnEnemy(i);
     }
-
+    
     private bool Validate()
     {
         if (container == null)
@@ -133,7 +140,7 @@ public class EnemySpawner : MonoBehaviour
 
         health.Died
             .Subscribe(_ => ScheduleRespawn())
-            .AddTo(health);
+            .AddTo(ref disposables);
     }
 
     private void ScheduleRespawn()
@@ -146,6 +153,6 @@ public class EnemySpawner : MonoBehaviour
 
         Observable.Timer(TimeSpan.FromSeconds(enemySpawnConfig.RespawnTimeSeconds))
             .Subscribe(_ => SpawnEnemy(UnityEngine.Random.Range(0, spawnPoints.Length)))
-            .AddTo(this);
+            .AddTo(ref disposables);
     }
 }
