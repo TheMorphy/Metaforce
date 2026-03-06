@@ -1,3 +1,4 @@
+using R3;
 using UnityEngine;
 using Zenject;
 
@@ -8,6 +9,9 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController controller;
     private PlayerConfig config;
     private Vector2 moveInput;
+    
+    private readonly ReactiveProperty<bool> isMoving = new(false);
+    public ReadOnlyReactiveProperty<bool> IsMoving => isMoving;
 
     [Inject]
     public void Construct(PlayerConfig playerConfig)
@@ -34,6 +38,11 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         moveInput = input.Player.Move.ReadValue<Vector2>();
+        
+        bool movingNow = moveInput.sqrMagnitude > 0.01f;
+        
+        if (isMoving.Value != movingNow)
+            isMoving.Value = movingNow;
         
         PlayerMove();
     }

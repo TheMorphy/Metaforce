@@ -16,4 +16,4 @@ MonoBehaviour:
   RotationSpeed: 100
   SecondsPerAttack: 0.5
   Damage: 1
-  AttackRadius: 2
+  AttackRadius: 3
