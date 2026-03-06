@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: DefaultEnemyConfig
   m_EditorClassIdentifier: Assembly-CSharp::EnemyConfig
   EnemyPrefab: {fileID: 1776966266084158026, guid: f99bbd0754201f448b27f0c455b92b76, type: 3}
-  Hp: 1
+  Hp: 3
   MoveSpeed: 2
   RotationSpeed: 10

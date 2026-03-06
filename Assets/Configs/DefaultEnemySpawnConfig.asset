@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: DefaultEnemySpawnConfig
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnConfig
   EnemyType: {fileID: 11400000, guid: bcbdbbbbfa9b0424481d6f063f559af1, type: 2}
-  RespawnTimeSeconds: 2
+  RespawnTimeSeconds: 5
   MaxEnemiesOnLevel: 10

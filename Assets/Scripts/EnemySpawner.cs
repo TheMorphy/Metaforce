@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using Zenject;
+using R3;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -12,99 +14,68 @@ public class EnemySpawner : MonoBehaviour
     [Header("Options")]
     [SerializeField] private bool randomizeStartIndex = true;
 
-    [Header("Если нужно создать новый спавнер с другим типом врагов (сейчас Zenject конфиг)")]
     [SerializeField] private EnemySpawnConfig overrideSpawnConfig;
-    private EnemySpawnConfig enemySpawnConfig;
-    
-    private EnemySpawnConfig EffectiveConfig => overrideSpawnConfig != null
-        ? overrideSpawnConfig
-        : enemySpawnConfig;
 
+    private EnemySpawnConfig defaultSpawnConfig;
     private DiContainer container;
 
+    private EnemySpawnConfig Config => overrideSpawnConfig != null
+        ? overrideSpawnConfig
+        : defaultSpawnConfig;
+
     [Inject]
-    public void Construct(EnemySpawnConfig enemySpawnConfig, DiContainer diContainer)
+    public void Construct(EnemySpawnConfig spawnConfig, DiContainer diContainer)
     {
-        this.enemySpawnConfig = enemySpawnConfig;
+        defaultSpawnConfig = spawnConfig;
         container = diContainer;
     }
 
     private void Start()
     {
-        SpawnInitial();
-    }
-
-    private void SpawnInitial()
-    {
-        EnemySpawnConfig config = EffectiveConfig;
-        
-        if (config.EnemyType == null)
-        {
-            Debug.LogError("EnemySpawner: enemyPrefab is null");
-            return;
-        }
-        
-        if (config.EnemyType.EnemyPrefab == null)
-        {
-            Debug.LogError("EnemySpawner: enemy prefab is null");
-            return;
-        }
-        
-        if (spawnPoints == null || spawnPoints.Length == 0)
-        {
-            Debug.LogError("EnemySpawner: spawnPoints are not set");
-            return;
-        }
-        
-        if (patrolRoute == null)
-        {
-            Debug.LogError("EnemySpawner: no patrol route set, trying to find one...");
-            patrolRoute = FindFirstObjectByType< PatrolRoute>();
-        }
-
-        int count = Mathf.Max(0, enemySpawnConfig.MaxEnemiesOnLevel);
+        int count = Config.MaxEnemiesOnLevel;
 
         for (int i = 0; i < count; i++)
+            SpawnEnemy(i);
+    }
+
+    private void SpawnEnemy(int index)
+    {
+        Transform spawnPoint = spawnPoints[index % spawnPoints.Length];
+
+        GameObject enemy = container.InstantiatePrefab(
+            Config.EnemyType.EnemyPrefab,
+            spawnPoint.position,
+            spawnPoint.rotation,
+            null);
+
+        EnemyPatrol patrol = enemy.GetComponent<EnemyPatrol>();
+        if (patrol != null)
         {
-            Transform spawnPoint = spawnPoints[i % spawnPoints.Length];
+            int startIndex = randomizeStartIndex
+                ? UnityEngine.Random.Range(0, patrolRoute.Count)
+                : index % patrolRoute.Count;
 
-            GameObject enemyInstance = container.InstantiatePrefab(config.EnemyType.EnemyPrefab, spawnPoint.position, spawnPoint.rotation, null);
+            patrol.Init(patrolRoute, startIndex);
+        }
 
-            var patrol = enemyInstance.GetComponent<EnemyPatrol>();
-            
-            if (patrol == null)
+        EnemyHealth health = enemy.GetComponent<EnemyHealth>();
+
+        if (health != null)
+        {
+            health.Died.Subscribe(_ =>
             {
-                Debug.LogWarning("EnemySpawner: spawned enemy has no EnemyPatrol");
-                continue;
-            }
-
-            PatrolRoute route = ChooseRouteFor(enemyInstance, patrolRoute);
-
-            int startIndex = ChooseStartIndex(route, i);
-
-            patrol.Init(route, startIndex);
+                ScheduleRespawn();
+            }).AddTo(this);
         }
     }
 
-    /// <summary>
-    /// Точка расширения: в будущем можно выбирать маршрут индивидуально для каждого врага.
-    /// Сейчас: всегда defaultRoute.
-    /// </summary>
-    protected virtual PatrolRoute ChooseRouteFor(GameObject enemyInstance, PatrolRoute fallback)
+    private void ScheduleRespawn()
     {
-        return fallback;
-    }
-
-    /// <summary>
-    /// Точка расширения: политика выбора стартовой точки.
-    /// Сейчас: рандом или детерминированно по индексу.
-    /// </summary>
-    protected virtual int ChooseStartIndex(PatrolRoute route, int spawnOrderIndex)
-    {
-        if (route == null || route.Count == 0) return 0;
-
-        return randomizeStartIndex
-            ? Random.Range(0, route.Count)
-            : (spawnOrderIndex % route.Count);
+        Observable.Timer(TimeSpan.FromSeconds(Config.RespawnTimeSeconds))
+            .Subscribe(_ =>
+            {
+                SpawnEnemy(UnityEngine.Random.Range(0, spawnPoints.Length));
+            })
+            .AddTo(this);
     }
 }
