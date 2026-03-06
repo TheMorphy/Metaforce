@@ -33,6 +33,7 @@
 * **Zenject** — dependency injection
 * **R3** — реактивное программирование
 * **DOTween** — анимации UI
+* **Cinemachine** — follow камера игрока
 * **ScriptableObject** — конфигурации
 
 ---
