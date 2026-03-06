@@ -9,15 +9,28 @@ public sealed class EnemyHpBarView : MonoBehaviour
     
     [Header("Hp Slider")]
     [SerializeField] private Slider slider;
-    [SerializeField] private float tweenDuration = 0.2f;
+    [SerializeField] private float tweenDuration;
 
-    private readonly CompositeDisposable cd = new();
+    private readonly CompositeDisposable compositeDisposable = new();
     private Tween currentTween;
 
     private void Awake()
     {
         if (!health)
             health = GetComponentInParent<EnemyHealth>();
+
+        if (health == null)
+        {
+            Debug.LogError("EnemyHpBarView: EnemyHealth was not found.", this);
+            enabled = false;
+            return;
+        }
+
+        if (slider == null)
+        {
+            Debug.LogError("EnemyHpBarView: Slider reference is missing.", this);
+            enabled = false;
+        }
     }
 
     private void Start()
@@ -27,7 +40,7 @@ public sealed class EnemyHpBarView : MonoBehaviour
 
         health.Hp
             .Subscribe(OnHpChanged)
-            .AddTo(cd);
+            .AddTo(compositeDisposable);
     }
 
     private void OnHpChanged(int hp)
@@ -39,6 +52,6 @@ public sealed class EnemyHpBarView : MonoBehaviour
     private void OnDestroy()
     {
         currentTween?.Kill();
-        cd.Dispose();
+        compositeDisposable.Dispose();
     }
 }

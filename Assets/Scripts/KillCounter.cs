@@ -7,18 +7,18 @@ public sealed class KillCounter : IDisposable
     private readonly ReactiveProperty<int> kills = new(0);
     public ReadOnlyReactiveProperty<int> Kills => kills;
 
-    private readonly CompositeDisposable cd = new();
+    private readonly CompositeDisposable compositeDisposable = new();
 
     [Inject]
-    public KillCounter(GameEvents events)
+    public KillCounter(GameEvents gameEvents)
     {
-        events.EnemyKilled
+        gameEvents.EnemyKilled
             .Subscribe(_ => kills.Value++)
-            .AddTo(cd);
+            .AddTo(compositeDisposable);
     }
 
     public void Dispose()
     {
-        cd.Dispose();
+        compositeDisposable.Dispose();
     }
 }

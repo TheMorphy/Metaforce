@@ -37,6 +37,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (!config)
+            return;
+        
         moveInput = input.Player.Move.ReadValue<Vector2>();
         
         bool movingNow = moveInput.sqrMagnitude > 0.01f;
@@ -55,6 +58,6 @@ public class PlayerMovement : MonoBehaviour
         if (!(move.sqrMagnitude > 0.01f)) return;
         
         Quaternion lookRotation = Quaternion.LookRotation(move);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * config.MoveSpeed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * config.RotationSpeed);
     }
 }

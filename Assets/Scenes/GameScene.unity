@@ -212,8 +212,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneMonoInstaller
   playerConfig: {fileID: 11400000, guid: d289ecb807503904784afbb8834a4f0e, type: 2}
-  enemyTypeConfig: {fileID: 11400000, guid: bcbdbbbbfa9b0424481d6f063f559af1, type: 2}
-  enemySpawnConfig: {fileID: 11400000, guid: bc8f6b0718003f346ae03a1f9d2b4e29, type: 2}
 --- !u!114 &149273129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,7 +427,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: f1a28eb8bea28004d92c0266682f98dc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -718,7 +716,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 5000
+  m_ColorTemperature: 5185
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -737,13 +735,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.39429823, y: -0.23627308, z: 0.10565187, w: 0.88178325}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 48.185, y: -30, z: 0}
 --- !u!114 &410087042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1320,7 +1318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 736e49f04f79b0c4fba6ad6f8a508891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KillCounterView
-  text: {fileID: 1434294627}
+  killCounterText: {fileID: 1434294627}
 --- !u!4 &1452338096
 Transform:
   m_ObjectHideFlags: 0
@@ -1561,6 +1559,10 @@ PrefabInstance:
       propertyPath: patrolRoute
       value: 
       objectReference: {fileID: 1395191613}
+    - target: {fileID: 38934180534246468, guid: ddd50dc971c6e5a4e915d072a769a659, type: 3}
+      propertyPath: enemySpawnConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: bc8f6b0718003f346ae03a1f9d2b4e29, type: 2}
     - target: {fileID: 38934180534246468, guid: ddd50dc971c6e5a4e915d072a769a659, type: 3}
       propertyPath: spawnPoints.Array.size
       value: 10

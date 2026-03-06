@@ -1,5 +1,4 @@
 using UnityEngine;
-using Zenject;
 
 [RequireComponent(typeof(CharacterController))]
 public sealed class EnemyPatrol : MonoBehaviour
@@ -14,16 +13,18 @@ public sealed class EnemyPatrol : MonoBehaviour
     private int index;
     private float waitTimer;
 
-    [Inject]
-    public void Construct(EnemyTypeConfig enemyTypeConfig)
+    public void Init(EnemyTypeConfig enemyTypeConfig, PatrolRoute patrolRoute, int startIndex)
     {
         typeConfig = enemyTypeConfig;
-    }
-    
-    public void Init(PatrolRoute patrolRoute, int startIndex)
-    {
         route = patrolRoute;
-        index = Mathf.Clamp(startIndex, 0, patrolRoute.Count - 1);
+
+        if (route == null || route.Count == 0)
+        {
+            index = 0;
+            return;
+        }
+
+        index = Mathf.Clamp(startIndex, 0, route.Count - 1);
     }
 
     private void Awake()
@@ -33,7 +34,8 @@ public sealed class EnemyPatrol : MonoBehaviour
 
     private void Update()
     {
-        if (!route || route.Count < 2) return;
+        if (!typeConfig || !route || route.Count < 2)
+            return;
 
         if (waitTimer > 0f)
         {

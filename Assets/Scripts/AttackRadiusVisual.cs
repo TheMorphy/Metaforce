@@ -4,7 +4,8 @@ using Zenject;
 public sealed class AttackRadiusVisual : MonoBehaviour
 {
     [SerializeField] private Transform circleQuad;
-    [SerializeField] private float yOffset = 0.02f;
+    [SerializeField] private float yOffset;
+    [SerializeField] private float yScale;
 
     private PlayerConfig config;
 
@@ -16,9 +17,9 @@ public sealed class AttackRadiusVisual : MonoBehaviour
         if (circleQuad == null) return;
 
         float diameter = config.AttackRadius * 2f;
-        circleQuad.localScale = new Vector3(diameter, 0.01f, diameter);
+        circleQuad.localScale = new Vector3(diameter, yScale, diameter);
 
-        var p = circleQuad.localPosition;
-        circleQuad.localPosition = new Vector3(p.x, yOffset, p.z);
+        Vector3 localPosition = circleQuad.localPosition;
+        circleQuad.localPosition = new Vector3(localPosition.x, yOffset, localPosition.z);
     }
 }

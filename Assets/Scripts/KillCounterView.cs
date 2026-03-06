@@ -5,25 +5,31 @@ using R3;
 
 public sealed class KillCounterView : MonoBehaviour
 {
-    [SerializeField] private TMP_Text text;
+    [SerializeField] private TMP_Text killCounterText;
 
-    private readonly CompositeDisposable cd = new();
+    private readonly CompositeDisposable compositeDisposable = new();
 
     [Inject]
     public void Construct(KillCounter counter)
     {
         counter.Kills
             .Subscribe(UpdateText)
-            .AddTo(cd);
+            .AddTo(compositeDisposable);
     }
 
     private void UpdateText(int kills)
     {
-        text.text = kills.ToString();
+        if (killCounterText == null)
+        {
+            Debug.LogError("KillCounterView: kill counter text is null");
+            return;
+        }
+        
+        killCounterText.text = kills.ToString();
     }
 
     private void OnDestroy()
     {
-        cd.Dispose();
+        compositeDisposable.Dispose();
     }
 }

@@ -2442,6 +2442,7 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 128
+  attackAnimationSpeedMultiplier: 2
 --- !u!114 &5313062484394765989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2456,6 +2457,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackRadiusVisual
   circleQuad: {fileID: 1390785701214780467}
   yOffset: 0.02
+  yScale: 0.01
 --- !u!1 &8253417771930179640
 GameObject:
   m_ObjectHideFlags: 0

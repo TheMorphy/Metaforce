@@ -2568,7 +2568,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHpBarView
   health: {fileID: 4085842883182520711}
   slider: {fileID: 4670286932453947651}
-  tweenDuration: 0.2
+  tweenDuration: 0.25
 --- !u!1 &8985355756878685286
 GameObject:
   m_ObjectHideFlags: 0

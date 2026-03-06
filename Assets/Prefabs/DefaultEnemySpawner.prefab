@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cce0b38cdfff6a4a971aee218104a48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  enemySpawnConfig: {fileID: 11400000, guid: bc8f6b0718003f346ae03a1f9d2b4e29, type: 2}
   spawnPoints:
   - {fileID: 0}
   - {fileID: 0}
@@ -55,4 +56,3 @@ MonoBehaviour:
   - {fileID: 0}
   patrolRoute: {fileID: 0}
   randomizeStartIndex: 1
-  overrideSpawnConfig: {fileID: 0}
